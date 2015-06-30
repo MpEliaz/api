@@ -10,6 +10,6 @@ class Comuna extends Model
 
     public function pymes()
     {
-        return $this->hasMany('App\Models\Pyme','comuna', 'id');
+        return $this->hasMany('App\Models\Pyme');
     }
 }

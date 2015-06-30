@@ -2,25 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreatePyme;
+use App\Models\Imagen;
 use App\Models\Pyme;
-use App\Models\Comuna;
 use Illuminate\Http\Request;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Response;
 
-class PymeController extends Controller
+class PymeImagenController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index()
+    public function index($id_pyme)
     {
-        $pymes = Pyme::with('comuna')->get();
-        return Response::json($pymes);
+        return $imagenes = Pyme::findOrFail($id_pyme)->imagenes;
     }
 
     /**
@@ -38,11 +36,9 @@ class PymeController extends Controller
      *
      * @return Response
      */
-    public function store(CreatePyme $request)
+    public function store()
     {
-        $pyme = new Pyme($request->all());
-        $pyme->save();
-        return $pyme->id;
+        //
     }
 
     /**
@@ -51,12 +47,11 @@ class PymeController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show($id_pyme, $id_imagen)
     {
-        $pyme = Pyme::findOrFail($id);
-        $pyme->comuna;
-        $pyme->imagenes;
-        return Response::json($pyme);
+        $pyme = Pyme::findOrFail($id_pyme);
+        $pyme->imagenes();
+        return $pyme;
     }
 
     /**

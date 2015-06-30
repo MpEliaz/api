@@ -17,9 +17,15 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'api/v1'], function()
 {
+    Route::resource('comuna','ComunaController');
     Route::resource('pyme','PymeController');
     Route::resource('imagenes','ImagenController');
-    Route::resource('pyme.imagenes','PymeController');
+    Route::resource('pyme.imagenes','PymeImagenController');
 
 
+});
+
+Route::get('token', function()
+{
+    return csrf_token();
 });
