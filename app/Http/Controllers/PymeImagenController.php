@@ -18,7 +18,16 @@ class PymeImagenController extends Controller
      */
     public function index($id_pyme)
     {
-        return $imagenes = Pyme::findOrFail($id_pyme)->imagenes;
+        $pyme = Pyme::find($id_pyme);
+
+        if (! $pyme)
+        {
+            // Se devuelve un array errors con los errores encontrados y cabecera HTTP 404.
+            // En code podríamos indicar un código de error personalizado de nuestra aplicación si lo deseamos.
+            return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra una pyme con ese código.'])],404);
+        }
+
+        return response()->json(['status'=>'ok','data'=>$pyme->imagenes()->get()],200);
     }
 
     /**

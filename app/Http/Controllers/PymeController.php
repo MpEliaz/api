@@ -19,8 +19,7 @@ class PymeController extends Controller
      */
     public function index()
     {
-        $pymes = Pyme::with('comuna')->get();
-        return Response::json($pymes);
+        return response()->json(['status'=>'ok','data'=>Pyme::with('comuna')->get()], 200);
     }
 
     /**
@@ -43,6 +42,7 @@ class PymeController extends Controller
         $pyme = new Pyme($request->all());
         $pyme->save();
         return $pyme->id;
+
     }
 
     /**
@@ -53,10 +53,17 @@ class PymeController extends Controller
      */
     public function show($id)
     {
-        $pyme = Pyme::findOrFail($id);
+        $pyme = Pyme::find($id);
+
+
+        if (!$pyme)
+        {
+            return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra una pyme con ese código.'])],404);
+        }
         $pyme->comuna;
         $pyme->imagenes;
-        return Response::json($pyme);
+
+        return response()->json(['status'=>'ok','data'=>$pyme],200);
     }
 
     /**

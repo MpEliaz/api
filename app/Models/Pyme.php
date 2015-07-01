@@ -11,7 +11,7 @@ class Pyme extends Model
 
     public function comuna()
     {
-        return $this->belongsTo('App\Models\Comuna')->select('nombre');
+        return $this->belongsTo('App\Models\Comuna');
     }
 
     public function imagenes()
