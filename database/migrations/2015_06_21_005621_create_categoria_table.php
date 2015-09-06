@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGeoposicionTable extends Migration
+class CreateCategoriaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,13 @@ class CreateGeoposicionTable extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('categorias', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('nombre');
+            $table->timestamps();
+
+
+        });
     }
 
     /**
@@ -22,6 +28,6 @@ class CreateGeoposicionTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('categorias');
     }
 }

@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call('UsuarioSeeder');
         $this->call('ComunaSeeder');
         $this->call('PymeSeeder');
+        $this->call('TipoPymeSeeder');
 
         Model::reguard();
     }

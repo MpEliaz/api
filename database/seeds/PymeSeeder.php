@@ -23,8 +23,9 @@ class PymeSeeder extends Seeder
                 'email' => $faker->email,
                 'url_imagen' => $faker->url,
                 'descripcion_corta' => $faker->sentence($nbWords = 6),
-                'descripcion_larga' => $faker->sentence($nbWords = 12),
+                'descripcion_larga' => $faker->sentence($nbWords = 20),
                 'estado' => true,
+                'comuna_id' => $faker->numberBetween($min = 1, $max = 10)
 
             ));
         }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTipopymeTable extends Migration
+class CreateGeoposicionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,14 +12,18 @@ class CreateTipopymeTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_pyme', function (Blueprint $table) {
+        Schema::create('geolocation', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre');
-            $table->integer('id_categoria')->unsigned();
+            $table->double('lat');
+            $table->double('lng');
+            $table->string('descripcion');
+            $table->integer('id_pyme')->unsigned()->nullable();
             $table->timestamps();
 
-            $table->foreign('id_categoria')->references('id')->on('categorias');
+            $table->foreign('id_pyme')->references('id')->on('pymes');
+
         });
+
     }
 
     /**
@@ -29,6 +33,6 @@ class CreateTipopymeTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tipo_pyme');
+        Schema::drop("geolocation");
     }
 }

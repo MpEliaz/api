@@ -18,12 +18,14 @@ Route::get('/', function () {
 Route::group(['prefix' => 'api/v1'], function()
 {
     Route::resource('comuna','ComunaController');
+    Route::resource('tipo_pyme','TipoPymeController');
     Route::resource('pyme','PymeController');
     Route::resource('imagenes','ImagenController');
     Route::resource('pyme.imagenes','PymeImagenController');
-
-
+    Route::resource('evento','EventoController');
 });
+
+Route::get('storage/{archivo}','StorageController@getFile');
 
 Route::get('token', function()
 {

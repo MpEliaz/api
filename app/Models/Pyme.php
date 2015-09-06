@@ -19,4 +19,16 @@ class Pyme extends Model
         return $this->belongsToMany('\App\Models\Imagen', 'pyme_imagen');
     }
 
+    public function geoPosicion()
+    {
+        return $this->hasOne('\App\Models\GeoLocation', 'id_pyme');
+    }
+
+    public function tipo_pyme()
+    {
+        return $this->hasOne('\App\Models\TipoPyme', 'tipo_pyme_id');
+    }
+
+
+
 }

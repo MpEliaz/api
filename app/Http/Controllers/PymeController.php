@@ -8,6 +8,7 @@ use App\Models\Comuna;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
 class PymeController extends Controller
@@ -17,9 +18,36 @@ class PymeController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json(['status'=>'ok','data'=>Pyme::with('comuna')->get()], 200);
+        $cat = $request->get('cat');
+
+        if($request->has('cat'))
+        {
+            $pymes = Pyme::select()
+                ->join('tipo_pyme', 'tipo_pyme.id', '=','pymes.tipo_pyme_id')
+                ->join('categorias','tipo_pyme.id_categoria','=','categorias.id')
+//                ->join('geolocation','pymes.id','=','geolocation.id_pyme')
+                ->where('categorias.id','=',$cat)->where("estado","=",1)
+                ->select('pymes.*')
+                ->get();
+
+/*            $pymes = DB::select("select pymes.* from pymes
+inner join tipo_pyme on pymes.tipo_pyme_id=tipo_pyme.id
+inner join categorias on tipo_pyme.id_categoria = categorias.id
+where categorias.id =".$cat);*/
+        }
+        else{
+            $pymes = Pyme::where("estado","=",1)->get();
+        }
+
+
+        foreach ($pymes as $p){
+            $p->geoPosicion;
+            $p->comuna;
+        }
+
+        return response()->json(['status'=>'ok','data'=>$pymes], 200);
     }
 
     /**
@@ -62,8 +90,9 @@ class PymeController extends Controller
         }
         $pyme->comuna;
         $pyme->imagenes;
+        $pyme->geoPosicion;
 
-        return response()->json(['status'=>'ok','data'=>$pyme],200);
+        return response()->json(array('status'=>'ok','data'=>[$pyme]),200);
     }
 
     /**

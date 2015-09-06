@@ -2,21 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comuna;
+use App\TipoPyme;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class ComunaController extends Controller
+class TipoPymeController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Comuna::all();
+        $tipo = $request->get('tipo');
+
+        if($request->has('tipo')) {
+            $tipo_pyme = TipoPyme::where('id_categoria','=',$tipo)->get(['id','nombre']);
+        }
+        else{
+            $tipo_pyme = TipoPyme::all(['id','nombre']);
+        }
+
+
+        return $tipo_pyme;
     }
 
     /**
@@ -47,7 +57,8 @@ class ComunaController extends Controller
      */
     public function show($id)
     {
-        return Comuna::findOrFail($id);
+        $tipo_pyme = TipoPyme::findOrFail($id);
+        return $tipo_pyme;
     }
 
     /**

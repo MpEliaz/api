@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comuna;
 use Illuminate\Http\Request;
+use App\Models\Evento;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class ComunaController extends Controller
+class EventoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,13 @@ class ComunaController extends Controller
      */
     public function index()
     {
-        return Comuna::all();
+        $eventos = Evento::all();
+
+        foreach ($eventos as $e){
+            $e->comuna;
+        }
+
+        return response()->json(['status'=>'ok','data'=>$eventos], 200);
     }
 
     /**
@@ -47,7 +53,16 @@ class ComunaController extends Controller
      */
     public function show($id)
     {
-        return Comuna::findOrFail($id);
+        $evento = Evento::find($id);
+
+        if(!$evento){
+            return response()->json(['errors'=>array(['code'=>404,'message'=>'No se encuentra una evento con ese id.'])],404);
+        }
+        else{
+            $evento->comuna;
+            return response()->json(array('status'=>'ok','data'=>[$evento]),200);
+        }
+
     }
 
     /**

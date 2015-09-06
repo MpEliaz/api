@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comuna;
 use Illuminate\Http\Request;
+
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class ComunaController extends Controller
+class StorageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class ComunaController extends Controller
      */
     public function index()
     {
-        return Comuna::all();
+        //
     }
 
     /**
@@ -47,7 +47,7 @@ class ComunaController extends Controller
      */
     public function show($id)
     {
-        return Comuna::findOrFail($id);
+        //
     }
 
     /**
@@ -81,5 +81,19 @@ class ComunaController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getFile($archivo)
+    {
+        $public_path = public_path();
+        $url = $public_path.'/storage/'.$archivo;
+        //verificamos si el archivo existe y lo retornamos
+        if (\Storage::exists($archivo))
+        {
+            //return response()->download($url);
+            return $url;
+        }
+        //si no se encuentra lanzamos un error 404.
+        return response()->json(array('status'=>'Not file found'),404);
     }
 }
